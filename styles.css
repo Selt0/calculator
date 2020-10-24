@@ -1,0 +1,55 @@
+:root {
+  --whiteBG: linear-gradient(124deg, rgba(249, 249, 251, 1) 0%, rgba(243, 243, 246, 1) 100%);
+  --lightTheme: #f3f3f6;
+}
+
+html {
+  background: var(--whiteBG);
+  height: 100%;
+}
+button {
+  height: 65px;
+  width: 65px;
+  font-size: 25px;
+  margin: 10px;
+  border-radius: 25px;
+  box-shadow: 2px 5px 20px -10px rgba(0, 0, 0, 0.75), -10px -10px 15px -5px rgb(255, 255, 255);
+  background-color: var(--lightTheme);
+}
+.container {
+  margin: 5em auto;
+  width: 375px;
+  box-sizing: border-box;
+  background: var(--lightTheme);
+  box-shadow: 25px 10px 35px -10px rgba(0, 0, 0, 0.1);
+}
+
+.display {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  background-color: bisque;
+}
+
+.row {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+}
+.equal-row {
+  display: flex;
+  justify-content: center;
+}
+
+.equal {
+  height: 87%;
+}
+
+.fn {
+  color: #3e97e9;
+}
+
+.number,
+.m-fn {
+  color: #88898f;
+}
