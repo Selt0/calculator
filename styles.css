@@ -5,7 +5,9 @@
 
 html {
   background: var(--whiteBG);
-  height: 100%;
+  height: 100vh;
+  overflow-y: hidden;
+  font-family: 'Quicksand', sans-serif;
 }
 button {
   height: 65px;
@@ -22,13 +24,25 @@ button {
   box-sizing: border-box;
   background: var(--lightTheme);
   box-shadow: 25px 10px 35px -10px rgba(0, 0, 0, 0.1);
+  border-radius: 2em;
 }
 
 .display {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  text-align: center;
-  background-color: bisque;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  padding: 1em;
+  text-align: right;
+  background-color: var(--lightTheme);
+  position: relative;
+  top: 35px;
+  width: 90%;
+  height: 120px;
+  border-radius: 1em;
+  box-sizing: border-box;
+  font-size: 2em;
+  box-shadow: inset 10px 5px 25px -10px rgba(0, 0, 0, 0.75),
+    inset -5px -5px 5px -1px rgb(250, 250, 250);
 }
 
 .row {
