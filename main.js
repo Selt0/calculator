@@ -1,5 +1,7 @@
 const clearBtn = document.querySelector('#clear');
+const allClearBtn = document.querySelector('#allclear');
 const equalBtn = document.querySelector('.equal');
+const negateBtn = document.querySelector('#negate');
 const inputDisplay = document.querySelector('.input');
 let valueA = '';
 let valueB = '';
@@ -24,28 +26,43 @@ numbers.forEach((number) => {
   number.addEventListener('click', updateDisplay);
 });
 
-// when a user presses a decimal, check if number already includes a decimal
-decimalbtn.addEventListener('click', () => {
-  const number = Number(inputDisplay.innerHTML);
-  if (number % 1 == 0) {
-    if (!activeOp) {
-      valueA += '.';
-      blink(valueA);
-    } else {
-      valueB += '.';
-      blink(valueB);
-    }
-  }
-});
-
 // when a user presses an operator, update operator
 operators.forEach((operator) => {
   operator.addEventListener('click', updateOperator);
 });
 
+// all clear / hard reset
+allClearBtn.addEventListener('click', () => {
+  valueA = valueB = total = '';
+  blink();
+  try {
+    activeOp.classList.toggle('active');
+    activeOp = null;
+  } catch {}
+});
+
+// when user presses clear, clear the display
 clearBtn.addEventListener('click', () => {
-  blink(0);
+  blink();
+
   !activeOp ? (valueA = '') : (valueB = '');
+});
+
+// user clicks the negate button
+negateBtn.addEventListener('click', () => {
+  if (inputDisplay.innerHTML != 0 && !valueA && !valueB) {
+    valueA = total;
+    negate();
+  }
+});
+
+// when user presses the percent button, transform number to decimal
+percentageBtn.addEventListener('click', percentify);
+
+// when a user presses a decimal, check if number already includes a decimal
+decimalbtn.addEventListener('click', () => {
+  const number = Number(inputDisplay.innerHTML);
+  if (number % 1 == 0) transformVal('dec', '.');
 });
 
 // when a user presses the equal btn, do math
@@ -53,13 +70,16 @@ equalBtn.addEventListener('click', () => {
   updateValues(Number(valueA), Number(valueB));
 
   // remove active operator
-  activeOp.classList.toggle('active');
-  activeOp = null;
+  try {
+    activeOp.classList.toggle('active');
+    activeOp = null;
+  } catch (error) {}
 
   // reset values
   valueA = valueB = '';
 });
 
+// FUNCTIONS
 // show numbers on display
 function updateDisplay() {
   if (!activeOp) {
@@ -103,13 +123,6 @@ function switchOperators(newOp, prevOp) {
   activeOp.classList.toggle('active');
 }
 
-function blink(value = 0) {
-  inputDisplay.innerHTML = '';
-  setTimeout(() => {
-    inputDisplay.innerHTML = numberWithCommas(value);
-  }, 100);
-}
-
 // MATH FUNCTIONS
 
 // add
@@ -133,6 +146,34 @@ function divide(num1, num2) {
     return num1 / num2;
   } else {
     return 'Error';
+  }
+}
+
+function negate() {
+  transformVal('mult', -1);
+}
+
+function percentify() {
+  transformVal('mult', 0.01);
+}
+
+function transformVal(method, val) {
+  if (method == 'mult') {
+    if (!activeOp) {
+      valueA = Number(valueA) * val;
+      blink(valueA);
+    } else {
+      valueB = Number(valueB) * val;
+      blink(valueB);
+    }
+  } else {
+    if (!activeOp) {
+      valueA += val;
+      blink(valueA);
+    } else {
+      valueB += val;
+      blink(valueB);
+    }
   }
 }
 // operate - takes an operator and 2 numbers
@@ -163,6 +204,13 @@ function updateValues(valueA, valueB) {
     valueA = valueB = total = '';
     blink();
   }
+}
+
+function blink(value = 0) {
+  inputDisplay.innerHTML = '';
+  setTimeout(() => {
+    inputDisplay.innerHTML = numberWithCommas(value);
+  }, 100);
 }
 
 function numberWithCommas(x) {
