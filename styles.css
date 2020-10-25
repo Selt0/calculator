@@ -1,14 +1,28 @@
+/* GENERAL */
+
 :root {
-  --whiteBG: linear-gradient(124deg, rgba(249, 249, 251, 1) 0%, rgba(243, 243, 246, 1) 100%);
-  --lightTheme: #f3f3f6;
+  --BG: linear-gradient(180deg, rgba(246, 246, 248, 1) 25%, rgba(243, 243, 246, 1) 75%);
+  --calc: #f1f1f4;
 }
 
 html {
-  background: var(--whiteBG);
+  background: var(--BG);
   height: 100vh;
   overflow-y: hidden;
   font-family: 'Quicksand', sans-serif;
 }
+
+/* CALC BODY */
+.container {
+  margin: 5em auto;
+  width: 355px;
+  box-sizing: border-box;
+  background: var(--calc);
+  box-shadow: 25px 10px 35px -10px rgba(0, 0, 0, 0.1), -10px -5px 15px rgb(255, 255, 255);
+  border-radius: 2em;
+}
+
+/* CALC BUTTONS */
 button {
   height: 65px;
   width: 65px;
@@ -16,33 +30,9 @@ button {
   margin: 10px;
   border-radius: 25px;
   box-shadow: 2px 5px 20px -10px rgba(0, 0, 0, 0.75), -10px -10px 15px -5px rgb(255, 255, 255);
-  background-color: var(--lightTheme);
-}
-.container {
-  margin: 5em auto;
-  width: 375px;
-  box-sizing: border-box;
-  background: var(--lightTheme);
-  box-shadow: 25px 10px 35px -10px rgba(0, 0, 0, 0.1);
-  border-radius: 2em;
-}
-
-.display {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3rem;
-  padding: 1em;
-  text-align: right;
-  background-color: var(--lightTheme);
-  position: relative;
-  top: 35px;
-  width: 90%;
-  height: 120px;
-  border-radius: 1em;
-  box-sizing: border-box;
-  font-size: 2em;
-  box-shadow: inset 10px 5px 25px -10px rgba(0, 0, 0, 0.75),
-    inset -5px -5px 5px -1px rgb(250, 250, 250);
+  background-color: var(--calc);
+  color: #88898f;
+  transition: 0.35s ease-in-out;
 }
 
 .row {
@@ -63,7 +53,27 @@ button {
   color: #3e97e9;
 }
 
-.number,
-.m-fn {
-  color: #88898f;
+/* CALC DISPLAY */
+.display {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  padding: 1em;
+  text-align: right;
+  background-color: var(--calc);
+  position: relative;
+  top: 35px;
+  width: 90%;
+  height: 120px;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  font-size: 2em;
+  box-shadow: inset 5px 5px 10px -10px rgba(0, 0, 0, 0.75),
+    inset -6px -5px 5px -3px rgb(255, 255, 255);
+}
+
+/* operators active state */
+.active {
+  background-color: #3e97e9;
+  color: var(--calc);
 }
