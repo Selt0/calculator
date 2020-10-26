@@ -89,3 +89,14 @@ button {
 .extra-functions {
   padding-left: 5px;
 }
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  .container {
+    margin-top: 0.5em;
+  }
+
+  .display {
+    height: 85px;
+  }
+}
