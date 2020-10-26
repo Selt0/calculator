@@ -1,7 +1,7 @@
 const clearBtn = document.querySelector('#clear');
 const allClearBtn = document.querySelector('#allclear');
 const backspaceBtn = document.querySelector('#delete');
-const equalBtn = document.querySelector('.equal');
+const equalBtn = document.querySelector('#equal');
 const negateBtn = document.querySelector('#negate');
 const inputDisplay = document.querySelector('.input');
 let valueA = '';
@@ -33,26 +33,13 @@ operators.forEach((operator) => {
 });
 
 // all clear / hard reset
-allClearBtn.addEventListener('click', () => {
-  valueA = valueB = total = '';
-  blink();
-  try {
-    activeOp.classList.toggle('active');
-    activeOp = null;
-  } catch {}
-});
+allClearBtn.addEventListener('click', hardReset);
 
 // when user presses clear, clear the display
-clearBtn.addEventListener('click', () => {
-  blink();
-
-  !activeOp ? (valueA = '') : (valueB = '');
-});
+clearBtn.addEventListener('click', clearDisplay);
 
 // user clicks the negate button
-negateBtn.addEventListener('click', () => {
-  negate();
-});
+negateBtn.addEventListener('click', negate);
 
 // user clicks backspace
 backspaceBtn.addEventListener('click', () => {
@@ -63,7 +50,19 @@ backspaceBtn.addEventListener('click', () => {
 percentageBtn.addEventListener('click', percentify);
 
 // when a user presses a decimal, check if number already includes a decimal
-decimalbtn.addEventListener('click', () => {
+decimalbtn.addEventListener('click', addDecimal);
+
+// when a user presses the equal btn, do math
+equalBtn.addEventListener('click', solve);
+
+/*
+=========
+FUNCTIONS
+========
+*/
+
+// decimal button
+function addDecimal() {
   const number = Number(inputDisplay.innerHTML);
   if (number == 0) {
     !activeOp ? (valueA = '0') : (valueB = '0');
@@ -71,10 +70,9 @@ decimalbtn.addEventListener('click', () => {
   if (number % 1 == 0) {
     transformVal('dec', '.');
   }
-});
-
-// when a user presses the equal btn, do math
-equalBtn.addEventListener('click', () => {
+}
+// equal button
+function solve() {
   updateValues(Number(valueA), Number(valueB));
 
   // remove active operator
@@ -85,53 +83,78 @@ equalBtn.addEventListener('click', () => {
 
   // reset values
   valueA = valueB = '';
-});
+}
 
-// FUNCTIONS
+// clear button
+function clearDisplay() {
+  blink();
+
+  !activeOp ? (valueA = '') : (valueB = '');
+}
+
+// all clear button
+function hardReset() {
+  valueA = valueB = total = '';
+  blink();
+  try {
+    activeOp.classList.toggle('active');
+    activeOp = null;
+  } catch {}
+}
+
 // show numbers on display
-function updateDisplay() {
+function updateDisplay(key = '') {
+  // save ele as keyboard or btn interaction
+  const ele = this instanceof Window ? key : this;
   if (!activeOp) {
     if (valueA.length != 16) {
-      valueA += this.value;
+      valueA += ele.dataset.key;
       blink(valueA);
     }
   } else {
     if (valueB.length != 16) {
-      valueB += this.value;
+      valueB += ele.dataset.key;
       blink(valueB);
     }
   }
-  previousBtn = this;
+  previousBtn = ele;
 }
 
 // show which operator is active
-function updateOperator() {
+function updateOperator(key = '') {
+  // save ele as keyboard or btn interaction
+  const ele = this instanceof Window ? key : this;
   // check if user wanted to swtich operators
   if (activeOp && previousBtn.classList.contains('operator')) {
-    switchOperators(this, activeOp);
-    // else check if there is no set active
+    switchOperators(ele, activeOp);
+    // else if there is no set active, set one
   } else if (!activeOp) {
-    activeOp = this;
+    activeOp = ele;
     activeOp.classList.toggle('active');
     // else solve the equation
   } else {
     updateValues(Number(valueA), Number(valueB));
-    switchOperators(this, activeOp);
+    switchOperators(ele, activeOp);
     // set new values
     valueA = total;
     valueB = '';
   }
 
-  previousBtn = this;
+  previousBtn = ele;
 }
 
+// updateOperator helper
 function switchOperators(newOp, prevOp) {
   prevOp.classList.toggle('active');
   activeOp = newOp;
   activeOp.classList.toggle('active');
 }
 
-// MATH FUNCTIONS
+/*
+==============
+MATH FUNCTIONS
+==============
+*/
 
 // add
 function add(num1, num2) {
@@ -201,16 +224,13 @@ function transformVal(method, val = '') {
 // operate - takes an operator and 2 numbers
 function operate(operator, num1, num2) {
   switch (operator) {
-    case 'add':
+    case '+':
       return add(num1, num2);
-      break;
-    case 'subtract':
+    case '-':
       return subtract(num1, num2);
-      break;
-    case 'multiply':
+    case '*':
       return multiply(num1, num2);
-      break;
-    case 'divide':
+    case '/':
       return divide(num1, num2);
   }
 }
@@ -218,16 +238,18 @@ function operate(operator, num1, num2) {
 // operate helper function
 function updateValues(valueA, valueB) {
   try {
-    operator = activeOp.value;
+    operator = activeOp.dataset.key;
     total = operate(operator, valueA, valueB);
     total = parseFloat(total.toFixed(10));
     blink(total);
   } catch (error) {
+    console.log(error);
     valueA = valueB = total = '';
     blink();
   }
 }
 
+// flash display after input
 function blink(value = 0) {
   inputDisplay.innerHTML = '';
   setTimeout(() => {
@@ -236,5 +258,34 @@ function blink(value = 0) {
 }
 
 function numberWithCommas(x) {
+  // if number contains a decimal, don't add commas
+  if (x % 1 != 0) return x;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+// KEYBOARD FUNCTION
+
+window.addEventListener('keydown', (e) => {
+  const key = document.querySelector(`button[data-key='${e.key}']`);
+  if (!key) return;
+
+  if (key.classList.contains('number')) {
+    updateDisplay(key);
+  } else if (key.classList.contains('operator')) {
+    updateOperator(key);
+  } else if (key.id == 'equal') {
+    solve();
+  } else if (key.id == 'percentage') {
+    percentify();
+  } else if (key.id == 'decimal') {
+    addDecimal();
+  } else if (key.id == 'allclear') {
+    hardReset();
+  } else if (key.id == 'clear') {
+    clearDisplay();
+  } else if (key.id == 'negate') {
+    negate();
+  } else if (key.id == 'delete') {
+    transformVal('del');
+  }
+});
