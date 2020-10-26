@@ -33,12 +33,14 @@ button {
   background-color: var(--calc);
   color: #88898f;
   transition: 0.35s ease-in-out;
+  text-align: center;
 }
 
 .row {
   display: flex;
   box-sizing: border-box;
   justify-content: center;
+  text-align: center;
 }
 .equal-row {
   display: flex;
