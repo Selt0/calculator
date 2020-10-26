@@ -1,5 +1,6 @@
 const clearBtn = document.querySelector('#clear');
 const allClearBtn = document.querySelector('#allclear');
+const backspaceBtn = document.querySelector('#delete');
 const equalBtn = document.querySelector('.equal');
 const negateBtn = document.querySelector('#negate');
 const inputDisplay = document.querySelector('.input');
@@ -16,7 +17,7 @@ const percentageBtn = document.querySelector('#percentage');
 const operators = document.querySelectorAll('.operator');
 
 // active operator
-let activeOp = document.querySelector('.active');
+let activeOp = document.querySelector('.active') || null;
 
 // track the button the user has pressed (number or function)
 let previousBtn;
@@ -50,10 +51,12 @@ clearBtn.addEventListener('click', () => {
 
 // user clicks the negate button
 negateBtn.addEventListener('click', () => {
-  if (inputDisplay.innerHTML != 0 && !valueA && !valueB) {
-    valueA = total;
-    negate();
-  }
+  negate();
+});
+
+// user clicks backspace
+backspaceBtn.addEventListener('click', () => {
+  transformVal('del');
 });
 
 // when user presses the percent button, transform number to decimal
@@ -62,7 +65,12 @@ percentageBtn.addEventListener('click', percentify);
 // when a user presses a decimal, check if number already includes a decimal
 decimalbtn.addEventListener('click', () => {
   const number = Number(inputDisplay.innerHTML);
-  if (number % 1 == 0) transformVal('dec', '.');
+  if (number == 0) {
+    !activeOp ? (valueA = '0') : (valueB = '0');
+  }
+  if (number % 1 == 0) {
+    transformVal('dec', '.');
+  }
 });
 
 // when a user presses the equal btn, do math
@@ -157,25 +165,39 @@ function percentify() {
   transformVal('mult', 0.01);
 }
 
-function transformVal(method, val) {
-  if (method == 'mult') {
-    if (!activeOp) {
-      valueA = Number(valueA) * val;
-      blink(valueA);
-    } else {
-      valueB = Number(valueB) * val;
-      blink(valueB);
+function transformVal(method, val = '') {
+  // if user transforms value after solving, update valueA
+  if (!valueA && !valueB) valueA = total;
+
+  if (!activeOp) {
+    switch (method) {
+      case 'mult':
+        valueA = Number(valueA) * val;
+        break;
+      case 'dec':
+        valueA += val;
+        break;
+      case 'del':
+        valueA = valueA.slice(0, -1);
+        break;
     }
+    blink(valueA);
   } else {
-    if (!activeOp) {
-      valueA += val;
-      blink(valueA);
-    } else {
-      valueB += val;
-      blink(valueB);
+    switch (method) {
+      case 'mult':
+        valueB = Number(valueB) * val;
+        break;
+      case 'dec':
+        valueB += val;
+        break;
+      case 'del':
+        valueB = valueB.slice(0, -1);
+        break;
     }
+    blink(valueB);
   }
 }
+
 // operate - takes an operator and 2 numbers
 function operate(operator, num1, num2) {
   switch (operator) {
