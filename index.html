@@ -24,44 +24,56 @@
       <div class="numPad">
         <div class="row">
           <div class="extra-functions">
-            <button class="m-fn" id="allclear">AC</button>
-            <button class="m-fn" id="negate">+/-</button>
+            <button class="m-fn" id="allclear" data-key="C">AC</button>
+            <button class="m-fn" id="negate" data-key="n">+/-</button>
           </div>
           <div class="banner"></div>
         </div>
         <div class="row">
-          <button class="fn" id="clear">C</button>
-          <button class="fn operator" value="divide"><i class="fas fa-divide"></i></button>
-          <button class="fn operator" value="multiply"><i class="fas fa-times"></i></button>
-          <button class="fn" id="delete"><i class="fas fa-backspace"></i></button>
+          <button class="fn" id="clear" data-key="c">C</button>
+          <button class="fn operator" data-key="/">
+            <i class="fas fa-divide"></i>
+          </button>
+          <button class="fn operator" data-key="*">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="fn" id="delete" data-key="Backspace">
+            <i class="fas fa-backspace"></i>
+          </button>
         </div>
         <div class="row">
-          <button class="number" value="7">7</button>
-          <button class="number" value="8">8</button>
-          <button class="number" value="9">9</button>
-          <button class="fn operator" value="subtract"><i class="fas fa-minus"></i></button>
+          <button class="number" data-key="7">7</button>
+          <button class="number" data-key="8">8</button>
+          <button class="number" data-key="9">9</button>
+          <button class="fn operator" data-key="-">
+            <i class="fas fa-minus"></i>
+          </button>
         </div>
         <div class="row">
-          <button class="number" value="4">4</button>
-          <button class="number" value="5">5</button>
-          <button class="number" value="6">6</button>
-          <button class="fn operator" value="add"><i class="fas fa-plus"></i></button>
+          <button class="number" data-key="4">4</button>
+          <button class="number" data-key="5">5</button>
+          <button class="number" data-key="6">6</button>
+          <button class="fn operator" data-key="+"><i class="fas fa-plus"></i></button>
         </div>
         <div class="equal-row">
           <div class="numbers">
             <div class="row">
-              <button class="number" value="1">1</button>
-              <button class="number" value="2">2</button>
-              <button class="number" value="3">3</button>
+              <button class="number" data-key="1">1</button>
+              <button class="number" data-key="2">2</button>
+              <button class="number" data-key="3">3</button>
             </div>
             <div class="row">
-              <button id="percentage" value="%"><i class="fas fa-percentage"></i></button>
-              <button class="number" value="0">0</button>
-              <button id="decimal">.</button>
+              <button id="percentage" data-key="%">
+                <i class="fas fa-percentage"></i>
+              </button>
+              <button class="number" data-key="0">0</button>
+              <button id="decimal" data-key=".">.</button>
             </div>
           </div>
           <div class="equal-sign">
-            <button class="equal fn" value="equal"><i class="fas fa-equals"></i></button>
+            <button id="equal" class="fn" data-key="Enter">
+              <i class="fas fa-equals"></i>
+            </button>
           </div>
         </div>
       </div>
