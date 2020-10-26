@@ -129,6 +129,8 @@ function updateOperator(key = '') {
     switchOperators(ele, activeOp);
     // else if there is no set active, set one
   } else if (!activeOp) {
+    // if user presses enter and pressed operator after, save total as new valueA
+    if (!valueA && !valueB && total) valueA = total;
     activeOp = ele;
     activeOp.classList.toggle('active');
     // else solve the equation
