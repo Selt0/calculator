@@ -1,6 +1,8 @@
-# calculator
+# JS Calculator
 
 An on-screen calculator using JavaScript, HTML, and CSS.
+
+## [live demo](https://selt0.github.io/calculator/)
 
 ---
 
@@ -15,3 +17,7 @@ keyboard:
 - **C** : hard clear
 - **Backspace** : backspace
 - **Enter** : equal
+
+---
+
+![screenshot of project](https://i.imgur.com/VmpzXSQ.png)
